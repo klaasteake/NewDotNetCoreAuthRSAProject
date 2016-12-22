@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-WebAPIBackend-603e0e88-fa43-409c-b405-cababdb931f9",
 
   "dependencies": {
@@ -41,10 +41,12 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Database": "1.0.0-*",
+    "Microsoft.AspNetCore.Authorization": "1.0.0"
   },
 
   "tools": {
