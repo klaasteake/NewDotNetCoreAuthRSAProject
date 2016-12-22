@@ -82,7 +82,7 @@ namespace WebAPIBackend
 
             app.UseStaticFiles();
 
-            //app.UseIdentity();
+            //app.UseIdentity(); 
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

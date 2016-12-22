@@ -46,7 +46,9 @@
       "type": "build"
     },
     "Database": "1.0.0-*",
-    "Microsoft.AspNetCore.Authorization": "1.0.0"
+    "Microsoft.AspNetCore.Authorization": "1.0.0",
+    "Microsoft.IdentityModel.Tokens": "5.0.0",
+    "System.IdentityModel.Tokens.Jwt": "5.0.0"
   },
 
   "tools": {
