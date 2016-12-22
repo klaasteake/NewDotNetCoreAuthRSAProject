@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NameListService } from '../shared/index';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Http } from '@angular/http';
+import { User } from '../shared/user';
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -12,45 +14,28 @@ import { NameListService } from '../shared/index';
 })
 export class HomeComponent implements OnInit {
 
-  newName: string = '';
-  errorMessage: string;
-  names: any[] = [];
+  loginForm : FormGroup;
+  username : string;
+  password : string;
+  result : string = "No result yet";
+  statuscode : number;
 
-  /**
-   * Creates an instance of the HomeComponent with the injected
-   * NameListService.
-   *
-   * @param {NameListService} nameListService - The injected NameListService.
-   */
-  constructor(public nameListService: NameListService) {}
+  constructor(private http: Http, private fb: FormBuilder) {
 
-  /**
-   * Get the names OnInit
-   */
+  }
+
   ngOnInit() {
-    this.getNames();
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z -]+$')]],
+      password: ['', [Validators.required, Validators.pattern('^[a-zA-Z -]+$')]],
+    }); 
   }
 
-  /**
-   * Handle the nameListService observable
-   */
-  getNames() {
-    this.nameListService.get()
-      .subscribe(
-        names => this.names = names,
-        error => this.errorMessage = <any>error
-      );
+  login() {
+    var user : User =  new User(this.username, this.password);
+    this.http.get('http://localhost:26017/api/results').subscribe(response => {
+      this.statuscode = response.status,
+      this.result = JSON.parse(response.toString());
+    });
   }
-
-  /**
-   * Pushes a new name onto the names array
-   * @return {boolean} false to prevent default form submit behavior to refresh the page.
-   */
-  addName(): boolean {
-    // TODO: implement nameListService.post
-    this.names.push(this.newName);
-    this.newName = '';
-    return false;
-  }
-
 }

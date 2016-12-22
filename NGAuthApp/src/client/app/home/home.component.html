@@ -1,10 +1,16 @@
-<p>Howdy! Here's a list of awesome computer scientists. Do you know any others? Add to the list yourself.</p>
+<h1>{{result}}</h1>
+<p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
+<p *ngIf="statusText">StatusText : {{statusText}}</p>
 
-<form (submit)="addName()">
-  <input [(ngModel)]="newName" name="newName" placeholder="Awesome Computer Scientist">
-  <button type="submit">Add</button>
+<p>Loginform:</p>
+<form (submit)="login()" [formGroup]="loginForm" id="loginForm">
+  <div class="form-group">
+  <input formControlName="username" placeholder="Username">
+ </div>
+ <div class="form-group">
+  <span *ngIf="loginForm.get('username').dirty && loginForm.get('username').touched && loginForm.get('username').errors?.pattern" class="error">Vul een geldige username in.</span>
+  <input formControlName="password" placeholder="Password">
+  <span *ngIf="loginForm.get('password').dirty && loginForm.get('password').touched && loginForm.get('password').errors?.pattern" class="error">Vul een geldig password in.</span>
+ </div>
+ <button type="submit">Login</button>
 </form>
-
-<ul>
-  <li *ngFor="let name of names">{{name}}</li>
-</ul>
