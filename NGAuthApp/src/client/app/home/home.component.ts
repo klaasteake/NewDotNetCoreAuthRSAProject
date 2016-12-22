@@ -47,6 +47,6 @@ export class HomeComponent implements OnInit {
       this.statuscode = response.status,
       this.statustext = response.statusText,
       this.result = response.json();
-    }, (errors) => {this.statustext = errors, this.result = "No data received"};
+    }, (errors) => {this.statustext = errors, this.result = "No data received"});
   }
 }
