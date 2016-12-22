@@ -42,8 +42,8 @@ namespace SecureWebApi3.Security
 
         private async Task GenerateToken(HttpContext context)
         {
-            var username = context.Request.Form["username"];
-            var password = context.Request.Form["password"];
+            string username = context.Request.Form["username"];
+            string password = context.Request.Form["password"];
 
             var identity = await GetIdentity(username, password);
             if (identity == null)
