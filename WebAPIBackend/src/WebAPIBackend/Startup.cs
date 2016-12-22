@@ -92,17 +92,41 @@ namespace WebAPIBackend
 
             //app.UseIdentity(); 
 
+            //Get a JWT Token
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
 
             var options = new TokenProviderOptions
             {
-                Audience = "ExampleAudience",
-                Issuer = "ExampleIssuer",
+                Audience = "Noob",
+                Issuer = "EliteMofo",
                 SigningCredentials = new SigningCredentials(signingKey,
                                                         SecurityAlgorithms.HmacSha256),
             };
 
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
+
+
+
+            //Enable authentication with JWT-tokens
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+                ValidateIssuer = true,
+                ValidIssuer = "EliteMofo",
+                ValidateAudience = true,
+                ValidAudience = "Noob",
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters
+            });
+
 
 
 
