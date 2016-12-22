@@ -1,0 +1,16 @@
+<h1>{{result}}</h1>
+<p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
+<p *ngIf="statusText">StatusText : {{statusText}}</p>
+
+<p>Loginform:</p>
+<form (submit)="login()" [formGroup]="loginForm" id="loginForm">
+  <div class="form-group">
+  <input formControlName="username" placeholder="Username">
+ </div>
+ <div class="form-group">
+  <span *ngIf="loginForm.get('username').dirty && loginForm.get('username').touched && loginForm.get('username').errors?.pattern" class="error">Vul een geldige username in.</span>
+  <input formControlName="password" placeholder="Password">
+  <span *ngIf="loginForm.get('password').dirty && loginForm.get('password').touched && loginForm.get('password').errors?.pattern" class="error">Vul een geldig password in.</span>
+ </div>
+ <button type="submit">Login</button>
+</form>
