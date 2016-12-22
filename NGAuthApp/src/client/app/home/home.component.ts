@@ -1,8 +1,7 @@
-import { Component, OnInit, Injectable  } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Http } from '@angular/http';
+import { Http, Headers} from '@angular/http';
 import { User } from '../shared/user';
-import { contentHeaders } from '../shared/headers';
 
 
 /**
@@ -38,26 +37,36 @@ export class HomeComponent implements OnInit {
 
   login() {
     let body : string = "username=" + this.loginForm.value.username+"&password=" + this.loginForm.value.password;
-    this.statustext = body;
+    let headerToken = new Headers();
+    headerToken.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    this.http.post('http://localhost:3653/token', body , { headers: contentHeaders })
+    this.http.post('http://localhost:3653/token', body , { headers: headerToken })
       .subscribe(
         response => {
-          console.log(response.json().id_token);
-          localStorage.setItem('id_token', response.json().id_token);
+          localStorage.setItem('token', response.json().access_token);
         },
         error => {
-          console.log("errors:", error);
+          this.statustext = error
         }
       );
-      
-    /*
-    this.http.get('http://localhost:3653/api/login/5').subscribe(response => {
-      this.statuscode = response.status,
-      this.statustext = response.statusText,
-      this.result = response.json();
-    }, (errors) => {this.statustext = errors, this.result = "No data received"});
-    */
+
+    let token : string = localStorage.getItem('token');
+
+    if(token != null){
+      var authmessage: string = "Bearer" + token;
+      let jsonresponse : any = JSON.stringify({"Authorization": authmessage});
+      let headerGet = new Headers();
+      headerGet.append('Content-Type', 'application/json');
+      headerGet.append('Autorization', authmessage);
+      console.log(jsonresponse);
+        
+      this.http.get('http://localhost:3653/api/login/5', jsonresponse).subscribe(response => {
+        this.statuscode = response.status,
+        this.statustext = response.statusText,
+        this.result = response.json();
+        console.log(response.json());
+      }, (errors) => {this.statustext = errors, this.result = "No data received"});
+    }
   }
 
   getPublicData() {
