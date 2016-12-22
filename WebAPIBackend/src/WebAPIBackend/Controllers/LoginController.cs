@@ -22,7 +22,7 @@ namespace WebAPIBackend.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Beheerder") ]
         public string Get(int id)
         {
             return "top secret";
