@@ -12,6 +12,10 @@ using Microsoft.Extensions.Logging;
 using WebAPIBackend.Data;
 using WebAPIBackend.Models;
 using WebAPIBackend.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using SecureWebApi3.Security;
+using Microsoft.Extensions.Options;
 
 namespace WebAPIBackend
 {
@@ -59,6 +63,10 @@ namespace WebAPIBackend
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
+
+        private static readonly string secretKey = "mysupersecret_secretkey!123";
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -83,6 +91,20 @@ namespace WebAPIBackend
             app.UseStaticFiles();
 
             //app.UseIdentity(); 
+
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+
+            var options = new TokenProviderOptions
+            {
+                Audience = "ExampleAudience",
+                Issuer = "ExampleIssuer",
+                SigningCredentials = new SigningCredentials(signingKey,
+                                                        SecurityAlgorithms.HmacSha256),
+            };
+
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
+
+
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
