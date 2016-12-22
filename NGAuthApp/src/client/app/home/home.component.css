@@ -11,3 +11,16 @@ ul {
   list-style-type: none;
   padding: 0 0 0 8px;
 }
+
+#loginForm{
+  margin: 20px 0 0;
+}
+
+#resultBlock{
+  display: block;
+  padding: 0 10px 15px;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  border-radius: 5px;
+}

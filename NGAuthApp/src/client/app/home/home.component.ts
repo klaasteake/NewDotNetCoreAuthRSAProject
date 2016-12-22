@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   password : string;
   result : any = "No result yet";
   statuscode : number;
-  statusText : string;
+  statustext : string;
 
   constructor(private http: Http, private fb: FormBuilder) {
 
@@ -34,10 +34,19 @@ export class HomeComponent implements OnInit {
 
   login() {
     var user : User =  new User(this.username, this.password);
+    
+    this.http.get('http://localhost:3653/api/login/5').subscribe(response => {
+      this.statuscode = response.status,
+      this.statustext = response.statusText,
+      this.result = response.json();
+    }, (errors) => {this.statustext = errors, this.result = "No data received"});
+  }
+
+  getPublicData() {
     this.http.get('http://localhost:3653/api/login').subscribe(response => {
       this.statuscode = response.status,
-      this.statusText = response.statusText,
+      this.statustext = response.statusText,
       this.result = response.json();
-    });
+    }, (errors) => {this.statustext = errors, this.result = "No data received"};
   }
 }

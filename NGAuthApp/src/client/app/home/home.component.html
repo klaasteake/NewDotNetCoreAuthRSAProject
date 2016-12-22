@@ -1,6 +1,9 @@
-<h1>{{result}}</h1>
-<p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
-<p *ngIf="statusText">StatusText : {{statusText}}</p>
+<div id="resultBlock">
+  <h1>{{result}}</h1>
+  <p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
+  <p *ngIf="statustext">StatusText : {{statustext}}</p>
+  <button (click)="getPublicData()" class="btn btn-primary">Public data ophalen</button>
+ </div>
 
 <form (submit)="login()" [formGroup]="loginForm" id="loginForm">
   <div class="form-group">
