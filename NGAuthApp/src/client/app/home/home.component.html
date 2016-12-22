@@ -2,15 +2,14 @@
 <p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
 <p *ngIf="statusText">StatusText : {{statusText}}</p>
 
-<p>Loginform:</p>
 <form (submit)="login()" [formGroup]="loginForm" id="loginForm">
   <div class="form-group">
-  <input formControlName="username" placeholder="Username">
+  <input formControlName="username" placeholder="Username" class="form-control">
  </div>
  <div class="form-group">
   <span *ngIf="loginForm.get('username').dirty && loginForm.get('username').touched && loginForm.get('username').errors?.pattern" class="error">Vul een geldige username in.</span>
-  <input formControlName="password" placeholder="Password">
+  <input formControlName="password" placeholder="Password" class="form-control">
   <span *ngIf="loginForm.get('password').dirty && loginForm.get('password').touched && loginForm.get('password').errors?.pattern" class="error">Vul een geldig password in.</span>
  </div>
- <button type="submit">Login</button>
+ <button type="submit" class="btn btn-primary">Login</button>
 </form>

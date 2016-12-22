@@ -17,8 +17,9 @@ export class HomeComponent implements OnInit {
   loginForm : FormGroup;
   username : string;
   password : string;
-  result : string = "No result yet";
+  result : any = "No result yet";
   statuscode : number;
+  statusText : string;
 
   constructor(private http: Http, private fb: FormBuilder) {
 
@@ -33,9 +34,10 @@ export class HomeComponent implements OnInit {
 
   login() {
     var user : User =  new User(this.username, this.password);
-    this.http.get('http://localhost:26017/api/results').subscribe(response => {
+    this.http.get('http://localhost:3653/api/login').subscribe(response => {
       this.statuscode = response.status,
-      this.result = JSON.parse(response.toString());
+      this.statusText = response.statusText,
+      this.result = response.json();
     });
   }
 }

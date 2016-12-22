@@ -55,7 +55,7 @@ namespace WebAPIBackend
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            services.AddCors();
             services.AddMvc();
 
             // Add application services.
@@ -107,6 +107,13 @@ namespace WebAPIBackend
 
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
 
             app.UseMvc(routes =>
             {
