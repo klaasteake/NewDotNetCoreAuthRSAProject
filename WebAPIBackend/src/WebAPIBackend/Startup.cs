@@ -90,6 +90,13 @@ namespace WebAPIBackend
 
             app.UseStaticFiles();
 
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
+
             //app.UseIdentity(); 
 
             //Get a JWT Token
@@ -132,12 +139,7 @@ namespace WebAPIBackend
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-            });
+
 
             app.UseMvc(routes =>
             {

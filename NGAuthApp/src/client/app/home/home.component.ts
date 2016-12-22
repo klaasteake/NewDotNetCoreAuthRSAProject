@@ -37,15 +37,14 @@ export class HomeComponent implements OnInit {
   }
 
   login() {
+    let body : string = "username=" + this.loginForm.value.username+"&password=" + this.loginForm.value.password;
+    this.statustext = body;
 
-    var body = JSON.stringify({"username": this.username, "password": this.password});
-
-    this.http.post('http://localhost:3653/token', body, { headers: contentHeaders })
+    this.http.post('http://localhost:3653/token', body , { headers: contentHeaders })
       .subscribe(
         response => {
           console.log(response.json().id_token);
           localStorage.setItem('id_token', response.json().id_token);
-
         },
         error => {
           console.log("errors:", error);
