@@ -3,7 +3,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers} from '@angular/http';
 import { User } from '../shared/user';
 
-
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -25,9 +24,7 @@ export class HomeComponent implements OnInit {
   statustext : string;
   token : string = localStorage.getItem('token');
 
-  constructor(private http: Http, private fb: FormBuilder) {
-
-  }
+  constructor(private http: Http, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -61,14 +58,13 @@ export class HomeComponent implements OnInit {
   }
 
   getPrivateData(token : string){
-    console.log(token);
     var authHeader = new Headers();
     authHeader.append('Authorization', 'Bearer ' + token);
     
     this.http.get('http://localhost:3653/api/login/5', {headers: authHeader}).subscribe(response => {
       this.statuscode = response.status,
       this.statustext = response.statusText,
-      this.result = response.text();
+      this.result = response.json();
     }, (errors) => {this.statustext = errors, this.result = "No data received"});
   }
 }

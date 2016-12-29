@@ -23,9 +23,9 @@ namespace WebAPIBackend.Controllers
         // GET api/login/5
         [HttpGet("{id}")]
         [Authorize]
-        public string Get(int id)
+        public IEnumerable<string> Get(int id)
         {
-            return "top secret";
+            return new string[] { "top", "secret" };
         }
 
         // POST api/login
