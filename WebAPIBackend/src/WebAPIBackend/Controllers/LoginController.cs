@@ -13,22 +13,22 @@ namespace WebAPIBackend.Controllers
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
-        // GET: api/values
+        // GET: api/login
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "no", "secret" };
         }
 
-        // GET api/values/5
+        // GET api/login/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Beheerder") ]
+        [Authorize]
         public string Get(int id)
         {
             return "top secret";
         }
 
-        // POST api/values
+        // POST api/login
         [HttpPost]
         public void Post([FromBody]string value)
         {

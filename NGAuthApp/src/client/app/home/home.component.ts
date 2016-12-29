@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   result : any = "No result yet";
   statuscode : number;
   statustext : string;
+  token : string = localStorage.getItem('token');
 
   constructor(private http: Http, private fb: FormBuilder) {
 
@@ -30,43 +31,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z -]+$')]],
-      password: ['', [Validators.required, Validators.pattern('^[a-zA-Z -]+$')]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     }); 
-  }
-
-  login() {
-    let body : string = "username=" + this.loginForm.value.username+"&password=" + this.loginForm.value.password;
-    let headerToken = new Headers();
-    headerToken.append('Content-Type', 'application/x-www-form-urlencoded');
-
-    this.http.post('http://localhost:3653/token', body , { headers: headerToken })
-      .subscribe(
-        response => {
-          localStorage.setItem('token', response.json().access_token);
-        },
-        error => {
-          this.statustext = error
-        }
-      );
-
-    let token : string = localStorage.getItem('token');
-
-    if(token != null){
-      var authmessage: string = "Bearer" + token;
-      let jsonresponse : any = JSON.stringify({"Authorization": authmessage});
-      let headerGet = new Headers();
-      headerGet.append('Content-Type', 'application/json');
-      headerGet.append('Autorization', authmessage);
-      console.log(jsonresponse);
-        
-      this.http.get('http://localhost:3653/api/login/5', jsonresponse).subscribe(response => {
-        this.statuscode = response.status,
-        this.statustext = response.statusText,
-        this.result = response.json();
-        console.log(response.json());
-      }, (errors) => {this.statustext = errors, this.result = "No data received"});
-    }
   }
 
   getPublicData() {
@@ -74,6 +41,34 @@ export class HomeComponent implements OnInit {
       this.statuscode = response.status,
       this.statustext = response.statusText,
       this.result = response.json();
+    }, (errors) => {this.statustext = errors, this.result = "No data received"});
+  }
+
+  login(){
+    let body : string = "username=" + this.loginForm.value.username+"&password=" + this.loginForm.value.password;
+    let headerToken = new Headers();
+    headerToken.append('Content-Type', 'application/x-www-form-urlencoded');
+    this.http.post('http://localhost:3653/token', body , { headers: headerToken })
+      .subscribe(
+        response => {
+          localStorage.setItem('token', response.json().access_token);
+          this.getPrivateData(response.json().access_token);
+        },
+        error => {
+          this.statustext = error
+        }
+      );
+  }
+
+  getPrivateData(token : string){
+    console.log(token);
+    var authHeader = new Headers();
+    authHeader.append('Authorization', 'Bearer ' + token);
+    
+    this.http.get('http://localhost:3653/api/login/5', {headers: authHeader}).subscribe(response => {
+      this.statuscode = response.status,
+      this.statustext = response.statusText,
+      this.result = response.text();
     }, (errors) => {this.statustext = errors, this.result = "No data received"});
   }
 }
