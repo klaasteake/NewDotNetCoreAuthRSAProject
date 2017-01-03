@@ -1,10 +1,18 @@
-<div id="resultBlock">
-  <h1>{{result}}</h1>
-  <p *ngIf="statuscode">Statuscode : {{statuscode}}</p>
-  <p *ngIf="statustext">StatusText : {{statustext}}</p>
-  <button (click)="getPublicData()" class="btn btn-primary">Public data ophalen</button>
- </div>
+<h1>Test ophalen van data via WebAPI:</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, cum voluptates recusandae, inventore molestiae ut itaque facere eligendi dolor ducimus veritatis non error, animi debitis. Minima debitis amet maxime nobis. Facere, illum, incidunt. Porro reprehenderit doloribus, a minima veniam assumenda illum officiis tenetur obcaecati nisi corporis ea fugiat eos officia.</p>
 
+<h3>Onbeveiligde data ophalen</h3>
+<div id="resultBlock">
+  <div *ngIf="statuscode == 200">
+      <span class="successMessage">Succes!</span><br/><br/>
+      <b>Opgehaalde data:</b> "{{result}}"
+  </div>
+  <p *ngIf="statuscode"><b>Statuscode</b> : {{statuscode}}</p>
+  <p *ngIf="statustext"><b>StatusText</b> : {{statustext}}</p>
+  <button (click)="getPublicData()" class="btn btn-primary">Public data ophalen</button>
+</div>
+
+<h3>Beveiligde data ophalen</h3>
 <form (submit)="login()" [formGroup]="loginForm" id="loginForm">
   <div class="form-group">
   <input formControlName="username" placeholder="Username" class="form-control">

@@ -25,7 +25,7 @@ namespace WebAPIBackend.Controllers
         [Authorize]
         public IEnumerable<string> Get(int id)
         {
-            return new string[] { "top", "secret" };
+            return new string[] { "klaas", " dit is top secret" };
         }
 
         // POST api/login

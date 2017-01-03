@@ -52,7 +52,9 @@ export class HomeComponent implements OnInit {
           this.getPrivateData(response.json().access_token);
         },
         error => {
-          this.statustext = error
+          this.result = "Er is een fout opgetreden bij het inloggen.";
+          this.statustext = error["statusText"];
+          this.statuscode = error["status"];
         }
       );
   }
