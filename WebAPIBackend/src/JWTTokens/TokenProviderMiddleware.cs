@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace SecureWebApi3.Security
+namespace JWTTokens
 {
     public class TokenProviderMiddleware
     {

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JWTTokens;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SecureWebApi3.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace WebAPIBackend
 {
-    public static class Extentions
+    public static class Extensions
     {
-        public static void UseRSA(this IApplicationBuilder app, string secretkey, string validateissuer, string validaudiance, TimeSpan timeout , Func<string, string, bool> identify)
+        public static void UseJWT(this IApplicationBuilder app, string secretkey, string validateissuer, string validaudiance, TimeSpan timeout , Func<string, string, bool> identify, string route)
         {
 
             //Get a JWT Token
@@ -22,9 +22,9 @@ namespace WebAPIBackend
             {
                 Audience = validaudiance,
                 Issuer = validateissuer,
-                SigningCredentials = new SigningCredentials(signingKey,
-                                                        SecurityAlgorithms.HmacSha256),
-                Expiration = timeout
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+                Expiration = timeout,
+                Path = route
             };
 
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options), identify);

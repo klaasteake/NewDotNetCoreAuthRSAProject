@@ -11,8 +11,8 @@ using WebAPIBackend.Models;
 using WebAPIBackend.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using SecureWebApi3.Security;
 using Microsoft.Extensions.Options;
+using JWTTokens;
 
 namespace WebAPIBackend
 {
@@ -61,9 +61,6 @@ namespace WebAPIBackend
         }
 
 
-        private static readonly string secretKey = "";
-
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -96,13 +93,18 @@ namespace WebAPIBackend
 
             //app.UseIdentity(); 
 
-            app.UseRSA("mysupersecret_secretkey!123", "team", "kopers",new TimeSpan(0,10,0), (u, p) => 
-            {
-                return (u == "klaas" && p == "test") ? true : false;
-            });
+            app.UseJWT(
+                secretkey: "mysupersecret_secretkey!123", 
+                validateissuer: "team", 
+                validaudiance: "gebruikers", 
+                timeout: new TimeSpan(0, 20, 0), 
+                route: "/token", 
+                identify: (u, p) =>
+                {
+                    return (u == "klaas" && p == "test") ? true : false;
+                });
 
-
-
+            
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
 

@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace SecureWebApi3.Security
+namespace JWTTokens
 {
     public class TokenProviderOptions
     {
-        public string Path { get; set; } = "/token";
+        public string Path { get; set; }
 
         public string Issuer { get; set; }
 
