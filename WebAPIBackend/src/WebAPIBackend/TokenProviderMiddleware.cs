@@ -13,12 +13,11 @@ namespace SecureWebApi3.Security
         private readonly RequestDelegate _next;
         private readonly TokenProviderOptions _options;
 
-        public TokenProviderMiddleware(
-            RequestDelegate next,
-            IOptions<TokenProviderOptions> options)
+        public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options, Func<string, string, bool> identify)
         {
             _next = next;
             _options = options.Value;
+            _getidentity = identify;
         }
 
         public Task Invoke(HttpContext context)
@@ -85,13 +84,19 @@ namespace SecureWebApi3.Security
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
+        private Func<string, string, bool> _getidentity;
+
         private Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            // DON'T do this in production, obviously!
-            if (username == "test" && password == "123")
+            if (_getidentity(username, password))
             {
                 return Task.FromResult(new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"), new Claim[] { }));
             }
+            // DON'T do this in production, obviously!
+            //if (username == "test" && password == "123")
+            //{
+            //    return Task.FromResult(new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"), new Claim[] { }));
+            //}
 
             // Credentials are invalid, or account doesn't exist
             return Task.FromResult<ClaimsIdentity>(null);

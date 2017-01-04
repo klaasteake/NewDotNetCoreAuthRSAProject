@@ -61,7 +61,7 @@ namespace WebAPIBackend
         }
 
 
-        private static readonly string secretKey = "mysupersecret_secretkey!123";
+        private static readonly string secretKey = "";
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,41 +96,10 @@ namespace WebAPIBackend
 
             //app.UseIdentity(); 
 
-            //Get a JWT Token
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
-
-            var options = new TokenProviderOptions
+            app.UseRSA("mysupersecret_secretkey!123", "team", "kopers",new TimeSpan(0,10,0), (u, p) => 
             {
-                Audience = "Noob",
-                Issuer = "EliteMofo",
-                SigningCredentials = new SigningCredentials(signingKey,
-                                                        SecurityAlgorithms.HmacSha256),
-            };
-
-            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
-
-
-
-            //Enable authentication with JWT-tokens
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
-                ValidateIssuer = true,
-                ValidIssuer = "EliteMofo",
-                ValidateAudience = true,
-                ValidAudience = "Noob",
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
+                return (u == "klaas" && p == "test") ? true : false;
             });
-
 
 
 
