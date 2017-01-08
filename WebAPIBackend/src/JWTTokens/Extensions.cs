@@ -8,10 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebAPIBackend
+namespace JWTTokens
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Implement JWT Tokens and RSA encryption using this function. No need for other code in startup.cs
+        /// </summary>
+        /// <param name="secretkey">Key for generating hash used to generate tokens</param>
+        /// <param name="identify">Used to indicate status.</param>
         public static void UseJWT(this IApplicationBuilder app, string secretkey, string validateissuer, string validaudiance, TimeSpan timeout , Func<string, string, bool> identify, string route)
         {
 

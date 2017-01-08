@@ -94,17 +94,17 @@ namespace WebAPIBackend
             //app.UseIdentity(); 
 
             app.UseJWT(
-                secretkey: "mysupersecret_secretkey!123", 
-                validateissuer: "team", 
-                validaudiance: "gebruikers", 
-                timeout: new TimeSpan(0, 20, 0), 
-                route: "/token", 
+                secretkey: "mysupersecret_secretkey!123",
+                validateissuer: "team",
+                validaudiance: "gebruikers",
+                timeout: new TimeSpan(0, 20, 0),
+                route: "/token",
                 identify: (u, p) =>
                 {
                     return (u == "klaas" && p == "test") ? true : false;
                 });
 
-            
+
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
 
